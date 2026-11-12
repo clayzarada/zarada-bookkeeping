@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  /* language switch: every bilingual bit exists twice, one per language */
+  html[data-lang="en"] [lang="tr"], html[data-lang="tr"] [lang="en"]{display:none !important}
+  .langs{display:flex;gap:4px;margin-left:auto}
+  .langs button{font-family:var(--mono);font-size:12px;letter-spacing:.06em;background:none;border:1px solid var(--line-2);
+    color:var(--ink-2);padding:6px 10px;border-radius:2px;cursor:pointer}
+  .langs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  .gate{max-width:420px}
+  .gate form{gap:14px;margin-top:32px}
+  .gate .err{font-size:14px;color:#a33;min-height:1.4em}
+  .dl{display:none}
+  .unlocked .gate{display:none}
+  .unlocked .dl{display:block}
+
+  .release{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+  .tag{font-family:var(--mono);font-size:12.5px;background:var(--accent-wash);color:var(--accent-deep);
+    padding:5px 10px;border-radius:2px;letter-spacing:.02em}
+  .release .muted{font-size:14px;color:var(--ink-3)}
+  .platforms{margin-top:36px}
+  .platforms .card p{font-size:15.5px}
+  .platforms .btn{margin-top:22px}
+  .meta{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:14px;letter-spacing:.02em}
+
+  .guide{margin-top:80px;padding-top:56px;border-top:1px solid var(--line)}
+  .guide > p.lede{margin-top:18px;font-size:17px}
+  .steps-list{list-style:none;padding:0;counter-reset:n;display:grid;gap:18px;margin-top:22px;max-width:680px}
+  .steps-list li{counter-increment:n;position:relative;padding-left:44px;color:var(--ink-2);font-size:16px}
+  .steps-list li::before{content:counter(n);position:absolute;left:0;top:-1px;width:28px;height:28px;border-radius:50%;
+    background:var(--accent-wash);color:var(--accent-deep);font-family:var(--mono);font-size:13px;font-weight:500;
+    display:flex;align-items:center;justify-content:center}
+  .steps-list b{color:var(--ink)}
+  .keybox{margin-top:40px}
+  .keybox h3{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .pill{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:2px}
+  .pill.req{background:#141b26;color:#fff}
+  .pill.opt{border:1px solid var(--line-2);color:var(--ink-3)}
+  .callout{margin-top:40px;max-width:680px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);
+    padding:22px 24px;border-radius:3px}
+  .callout p{color:var(--ink-2);font-size:15.5px}
+  .callout p + p{margin-top:10px}
+  kbd,code{font-family:var(--mono);font-size:.9em;background:var(--paper-2);border:1px solid var(--line);padding:1px 5px;border-radius:2px}
+
+  .notes{margin-top:72px;max-width:680px}
+  .notes h3{margin-bottom:10px}
+  .notes p{color:var(--ink-2);font-size:15.5px;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="/lab/" aria-label="Lab">
+      <b>Lab</b><span>Side projects</span>
+    </a>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en">EN</button>
+      <button type="button" data-set-lang="tr">TR</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section style="padding-top:88px">
+    <div class="wrap">
+
+      <!-- Access code gate. It only keeps casual visitors and bots out; it is not real security
+           (this site's code is public). -->
+      <div class="gate">
+        <p class="eyebrow tick"><span lang="en">Private beta</span><span lang="tr">Kapalı beta</span></p>
+        <h1 style="margin-top:20px;font-size:clamp(32px,4vw,46px)"><span lang="en">Enter access code.</span><span lang="tr">Erişim kodunu girin.</span></h1>
+        <p class="lede" style="margin-top:18px;font-size:17px">
+          <span lang="en">This page is for testers. If you were sent here, you were given a code.</span>
+          <span lang="tr">Bu sayfa test kullanıcıları içindir. Buraya yönlendirildiyseniz size bir kod verilmiştir.</span></p>
+        <form id="gate" autocomplete="off">
+          <div class="field">
+            <label for="code"><span lang="en">Access code</span><span lang="tr">Erişim kodu</span></label>
+            <input id="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required>
+          </div>
+          <p class="err" id="err" role="alert"></p>
+          <div class="btnrow"><button class="btn" type="submit"><span lang="en">Continue</span><span lang="tr">Devam</span></button></div>
+        </form>
+      </div>
+
+      <!-- Shown after the code is accepted -->
+      <div class="dl">
+        <p class="eyebrow tick"><span lang="en">Private beta</span><span lang="tr">Kapalı beta</span></p>
+        <h1 style="margin-top:20px;font-size:clamp(32px,4vw,46px)">Deutsch lernen</h1>
+        <p class="lede" style="margin-top:18px;font-size:17px">
+          <span lang="en">A desktop app for learning German: read your textbook PDFs and write answers on the pages, drill flashcards and case endings, practise writing and listening, and plan your study days with an AI coach. Available in English and Turkish.</span>
+          <span lang="tr">Almanca öğrenmek için bir masaüstü uygulaması: ders kitabı PDF'lerinizi okuyup sayfalara cevap yazın, kartlar ve hâl ekleriyle çalışın, yazma ve dinleme pratiği yapın, çalışma günlerinizi bir yapay zekâ koçuyla planlayın. İngilizce ve Türkçe kullanılabilir.</span></p>
+
+        <div class="release" id="release" hidden>
+          <span class="tag" id="rel-version"></span>
+          <span class="muted" id="rel-date"></span>
+        </div>
+
+        <div class="cols c2 platforms">
+          <div class="card">
+            <p class="eyebrow">Windows</p>
+            <h3 style="margin-top:12px">Windows 10 / 11</h3>
+            <p><span lang="en">Download, unzip, and double-click <b>Deutsch lernen</b>.</span>
+               <span lang="tr">İndirin, zip'i açın ve <b>Deutsch lernen</b>'e çift tıklayın.</span></p>
+            <a class="btn" id="dl-win" href="#" data-asset="Deutsch-lernen-Windows.zip"><span lang="en">Download for Windows</span><span lang="tr">Windows için indir</span></a>
+            <p class="meta" id="meta-win"></p>
+          </div>
+          <div class="card">
+            <p class="eyebrow">macOS</p>
+            <h3 style="margin-top:12px">Mac</h3>
+            <p><span lang="en">Download, unzip, and double-click <b>build_mac.command</b>. It installs the app in Applications.</span>
+               <span lang="tr">İndirin, zip'i açın ve <b>build_mac.command</b>'a çift tıklayın. Uygulamayı Uygulamalar klasörüne kurar.</span></p>
+            <a class="btn" id="dl-mac" href="#" data-asset="Deutsch-lernen-Mac.zip"><span lang="en">Download for Mac</span><span lang="tr">Mac için indir</span></a>
+            <p class="meta" id="meta-mac"></p>
+          </div>
+        </div>
+
+        <!-- ── API setup guide ─────────────────────────────────── -->
+        <div class="guide" id="setup">
+          <p class="eyebrow tick"><span lang="en">Setup</span><span lang="tr">Kurulum</span></p>
+          <h2 style="margin-top:16px"><span lang="en">How to set up the API</span><span lang="tr">API nasıl kurulur</span></h2>
+          <p class="lede">
+            <span lang="en">The app runs on your own computer, but its AI features (practice sets, marking, flashcards, the coach) use Claude through your own API key. You pay the AI provider directly for what you use, usually a few cents per practice set. Everything else, including reading and the declension trainer, works without a key.</span>
+            <span lang="tr">Uygulama kendi bilgisayarınızda çalışır, ancak yapay zekâ özellikleri (alıştırma setleri, değerlendirme, kartlar, koç) Claude'u kendi API anahtarınızla kullanır. Kullandığınız kadarını doğrudan yapay zekâ sağlayıcısına ödersiniz; genellikle alıştırma seti başına birkaç sent. Okuma ve çekim alıştırması dahil diğer her şey anahtarsız çalışır.</span></p>
+
+          <div class="keybox">
+            <h3>Claude API key <span class="pill req"><span lang="en">Required for AI</span><span lang="tr">Yapay zekâ için gerekli</span></span></h3>
+            <ol class="steps-list" lang="en">
+              <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and create an account.</li>
+              <li>Open <b>Billing</b> and add some credit. $5 is plenty to start; it's prepaid, so you can't be charged more than you add.</li>
+              <li>Open <b>API Keys</b>, press <b>Create Key</b>, give it a name like "Deutsch lernen", and copy it. It starts with <code>sk-ant-</code> and is only shown once.</li>
+              <li>In the app, open <b>Settings → Claude API</b>, paste the key, and press <b>Save settings</b>. The sidebar should now say <b>AI ready</b>.</li>
+            </ol>
+            <ol class="steps-list" lang="tr">
+              <li><a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> adresine gidip bir hesap oluşturun.</li>
+              <li><b>Billing</b> bölümünü açıp biraz bakiye ekleyin. Başlamak için 5 $ fazlasıyla yeter; ön ödemeli olduğu için eklediğinizden fazlası çekilmez.</li>
+              <li><b>API Keys</b> bölümünde <b>Create Key</b>'e basın, "Deutsch lernen" gibi bir ad verin ve anahtarı kopyalayın. <code>sk-ant-</code> ile başlar ve yalnızca bir kez gösterilir.</li>
+              <li>Uygulamada <b>Ayarlar → Claude API</b>'yi açın, anahtarı yapıştırın ve <b>Ayarları kaydet</b>'e basın. Kenar çubuğunda <b>Yapay zekâ hazır</b> yazmalıdır.</li>
+            </ol>
+          </div>
+
+          <div class="keybox">
+            <h3>Google Gemini API key <span class="pill opt"><span lang="en">Optional</span><span lang="tr">İsteğe bağlı</span></span></h3>
+            <p style="color:var(--ink-2);margin-top:12px;max-width:68ch">
+              <span lang="en">Only needed for listening episodes and the "Hear it" pronunciation button.</span>
+              <span lang="tr">Yalnızca dinleme bölümleri ve "Dinle" telaffuz düğmesi için gereklidir.</span></p>
+            <ol class="steps-list" lang="en">
+              <li>Go to <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> and sign in with a Google account.</li>
+              <li>Press <b>Create API key</b> and copy it.</li>
+              <li>In the app, open <b>Settings → Google Gemini</b>, paste it, and press <b>Save settings</b>.</li>
+            </ol>
+            <ol class="steps-list" lang="tr">
+              <li><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> adresine gidip bir Google hesabıyla giriş yapın.</li>
+              <li><b>Create API key</b>'e basıp anahtarı kopyalayın.</li>
+              <li>Uygulamada <b>Ayarlar → Google Gemini</b>'yi açın, yapıştırın ve <b>Ayarları kaydet</b>'e basın.</li>
+            </ol>
+          </div>
+
+          <div class="callout">
+            <p lang="en"><b>Your keys stay on your computer.</b> The app saves them in a file in its own folder and sends them only to Anthropic and Google. Don't share your key with anyone; if it ever leaks, delete it in the console and make a new one.</p>
+            <p lang="tr"><b>Anahtarlarınız bilgisayarınızda kalır.</b> Uygulama onları kendi klasöründeki bir dosyada saklar ve yalnızca Anthropic ile Google'a gönderir. Anahtarınızı kimseyle paylaşmayın; sızarsa konsoldan silip yenisini oluşturun.</p>
+            <p lang="en"><b>Keep costs in check:</b> set a <b>Monthly budget</b> under Settings → AI costs, and pick a cheaper model (Sonnet or Haiku) if you want. The app shows what you've spent this month.</p>
+            <p lang="tr"><b>Maliyeti kontrol altında tutun:</b> Ayarlar → Yapay zekâ maliyetleri altında bir <b>Aylık bütçe</b> belirleyin, isterseniz daha ucuz bir model (Sonnet veya Haiku) seçin. Uygulama bu ay ne kadar harcadığınızı gösterir.</p>
+          </div>
+        </div>
+
+        <div class="notes">
+          <h3><span lang="en">If your computer warns you</span><span lang="tr">Bilgisayarınız uyarı verirse</span></h3>
+          <p lang="en"><b>Windows:</b> "Windows protected your PC" appears because the app isn't code-signed yet. Click <i>More info</i>, then <i>Run anyway</i>.</p>
+          <p lang="tr"><b>Windows:</b> Uygulama henüz imzalı olmadığı için "Windows bilgisayarınızı korudu" uyarısı çıkar. <i>Ek bilgi</i>'ye, sonra <i>Yine de çalıştır</i>'a tıklayın.</p>
+          <p lang="en"><b>Mac:</b> if it says a file "can't be opened," right-click it, choose <i>Open</i>, then confirm.</p>
+          <p lang="tr"><b>Mac:</b> bir dosya için "açılamıyor" derse, sağ tıklayıp <i>Aç</i>'ı seçin ve onaylayın.</p>
+          <p style="margin-top:24px"><span lang="en">Questions or bugs? Email</span><span lang="tr">Soru veya hata bildirimi için:</span> <a href="mailto:Clayzarada00@gmail.com">Clayzarada00@gmail.com</a></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  // ── settings ──────────────────────────────────────────────
+  // GitHub repo that holds the app's releases. Downloads always point at the newest release,
+  // so publishing a new release updates this page without editing it.
+  var REPO = "clayzarada/deutsch-lernen";
+  // SHA-256 of the access code (lowercased, trimmed). Current code: "deutsch".
+  var CODE_HASH = "303183b7184214314bef74a53082f39692250b710a9c08822f62212432c1850f";
+
+  var root = document.documentElement;
+  function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+
+  // ── language ──────────────────────────────────────────────
+  function setLang(l){
+    root.dataset.lang = l; root.lang = l; store("lab-lang", l);
+    document.querySelectorAll("[data-set-lang]").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.setLang === l); });
+    renderRelease();
+  }
+  document.querySelectorAll("[data-set-lang]").forEach(function(b){ b.addEventListener("click", function(){ setLang(b.dataset.setLang); }); });
+
+  // ── release info from GitHub ──────────────────────────────
+  var rel = null;
+  function fmtSize(bytes){ return bytes ? (bytes / 1048576).toFixed(0) + " MB" : ""; }
+  function renderRelease(){
+    if (!rel) return;
+    var tr = root.dataset.lang === "tr";
+    document.getElementById("release").hidden = false;
+    document.getElementById("rel-version").textContent = (tr ? "Sürüm " : "Version ") + rel.tag_name.replace(/^v?/, "v");
+    var d = new Date(rel.published_at);
+    document.getElementById("rel-date").textContent = (tr ? "Yayın tarihi: " : "Released ") +
+      d.toLocaleDateString(tr ? "tr-TR" : "en-US", { year: "numeric", month: "long", day: "numeric" });
+    [["dl-win","meta-win"],["dl-mac","meta-mac"]].forEach(function(p){
+      var name = document.getElementById(p[0]).dataset.asset;
+      var a = (rel.assets || []).filter(function(x){ return x.name === name; })[0];
+      document.getElementById(p[1]).textContent = a ? rel.tag_name.replace(/^v?/, "v") + " · " + fmtSize(a.size) : "";
+    });
+  }
+  function loadRelease(){
+    fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if (j && j.tag_name) { rel = j; renderRelease(); } })
+      .catch(function(){ /* offline or no release yet: buttons still work once one exists */ });
+  }
+
+  // ── access gate ───────────────────────────────────────────
+  function unlock(){
+    document.body.classList.add("unlocked");
+    // Download links are only filled in after unlocking, so link-following bots don't fetch them.
+    ["dl-win","dl-mac"].forEach(function(id){
+      var a = document.getElementById(id);
+      a.href = "https://github.com/" + REPO + "/releases/latest/download/" + a.dataset.asset;
+    });
+    loadRelease();
+  }
+  async function sha256(s){
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+  }
+  document.getElementById("gate").addEventListener("submit", async function(e){
+    e.preventDefault();
+    var v = document.getElementById("code").value.trim().toLowerCase();
+    if (await sha256(v) === CODE_HASH){
+      try { sessionStorage.setItem("lab-ok", "1"); } catch(e){}
+      unlock(); window.scrollTo(0,0);
+    } else {
+      document.getElementById("err").textContent = root.dataset.lang === "tr" ? "Bu kod çalışmadı." : "That code didn't work.";
+    }
+  });
+
+  // ── start ─────────────────────────────────────────────────
+  var saved = store("lab-lang");
+  setLang(saved === "tr" || saved === "en" ? saved : (/^tr\b/i.test(navigator.language || "") ? "tr" : "en"));
+  try { if (sessionStorage.getItem("lab-ok") === "1") unlock(); } catch(e){}
+})();
+</script>
+</body>
+</html>
