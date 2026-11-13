@@ -228,7 +228,9 @@
     if (!rel) return;
     var tr = root.dataset.lang === "tr";
     document.getElementById("release").hidden = false;
-    document.getElementById("rel-version").textContent = (tr ? "Sürüm " : "Version ") + rel.tag_name.replace(/^v?/, "v");
+    // The build name is the quoted word in the release title, e.g. Deutsch lernen 1.0.0 “Aurelian”.
+    var build = ((rel.name || "").match(/[“"]([^”"]+)[”"]/) || [])[1];
+    document.getElementById("rel-version").textContent = (tr ? "Sürüm " : "Version ") + rel.tag_name.replace(/^v?/, "v") + (build ? " · " + build : "");
     var d = new Date(rel.published_at);
     document.getElementById("rel-date").textContent = (tr ? "Yayın tarihi: " : "Released ") +
       d.toLocaleDateString(tr ? "tr-TR" : "en-US", { year: "numeric", month: "long", day: "numeric" });
