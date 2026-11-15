@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>Lab</title>
+<title>Download Deutsch lernen (beta)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,12 +16,6 @@
     color:var(--ink-2);padding:6px 10px;border-radius:2px;cursor:pointer}
   .langs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 
-  .gate{max-width:420px}
-  .gate form{gap:14px;margin-top:32px}
-  .gate .err{font-size:14px;color:#a33;min-height:1.4em}
-  .dl{display:none}
-  .unlocked .gate{display:none}
-  .unlocked .dl{display:block}
 
   .release{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
   .tag{font-family:var(--mono);font-size:12.5px;background:var(--accent-wash);color:var(--accent-deep);
@@ -79,27 +72,8 @@
   <section style="padding-top:88px">
     <div class="wrap">
 
-      <!-- Access code gate. It only keeps casual visitors and bots out; it is not real security
-           (this site's code is public). -->
-      <div class="gate">
-        <p class="eyebrow tick"><span lang="en">Private beta</span><span lang="tr">Kapalı beta</span></p>
-        <h1 style="margin-top:20px;font-size:clamp(32px,4vw,46px)"><span lang="en">Enter access code.</span><span lang="tr">Erişim kodunu girin.</span></h1>
-        <p class="lede" style="margin-top:18px;font-size:17px">
-          <span lang="en">This page is for testers. If you were sent here, you were given a code.</span>
-          <span lang="tr">Bu sayfa test kullanıcıları içindir. Buraya yönlendirildiyseniz size bir kod verilmiştir.</span></p>
-        <form id="gate" autocomplete="off">
-          <div class="field">
-            <label for="code"><span lang="en">Access code</span><span lang="tr">Erişim kodu</span></label>
-            <input id="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required>
-          </div>
-          <p class="err" id="err" role="alert"></p>
-          <div class="btnrow"><button class="btn" type="submit"><span lang="en">Continue</span><span lang="tr">Devam</span></button></div>
-        </form>
-      </div>
-
-      <!-- Shown after the code is accepted -->
       <div class="dl">
-        <p class="eyebrow tick"><span lang="en">Private beta</span><span lang="tr">Kapalı beta</span></p>
+        <p class="eyebrow tick"><span lang="en">Public beta</span><span lang="tr">Açık beta</span></p>
         <h1 style="margin-top:20px;font-size:clamp(32px,4vw,46px)">Deutsch lernen</h1>
         <p class="lede" style="margin-top:18px;font-size:17px">
           <span lang="en">A desktop app for learning German: read your textbook PDFs and write answers on the pages, drill flashcards and case endings, practice writing and listening, and plan your study days with an AI coach. Available in English and Turkish.</span>
@@ -116,7 +90,7 @@
             <h3 style="margin-top:12px">Windows 10 / 11</h3>
             <p><span lang="en">Download, unzip, and double-click <b>Deutsch lernen</b>.</span>
                <span lang="tr">İndirin, zip'i açın ve <b>Deutsch lernen</b>'e çift tıklayın.</span></p>
-            <a class="btn" id="dl-win" href="#" data-asset="Deutsch-lernen-Windows.zip"><span lang="en">Download for Windows</span><span lang="tr">Windows için indir</span></a>
+            <a class="btn" id="dl-win" href="https://github.com/clayzarada/deutsch-lernen/releases/latest/download/Deutsch-lernen-Windows.zip" data-asset="Deutsch-lernen-Windows.zip"><span lang="en">Download for Windows</span><span lang="tr">Windows için indir</span></a>
             <p class="meta" id="meta-win"></p>
             <p class="tipline"><span lang="en"><b>For a fast start:</b> before unzipping, right-click the zip → <i>Properties</i> → tick <i>Unblock</i> → <i>OK</i>. Otherwise Windows re-checks every file each launch and starting takes about half a minute.</span>
                <span lang="tr"><b>Hızlı açılış için:</b> zip'i açmadan önce sağ tıklayın → <i>Özellikler</i> → <i>Engellemeyi kaldır</i>'ı işaretleyin → <i>Tamam</i>. Aksi hâlde Windows her açılışta tüm dosyaları yeniden denetler ve açılış yarım dakika kadar sürer.</span></p>
@@ -126,7 +100,7 @@
             <h3 style="margin-top:12px">Mac</h3>
             <p><span lang="en">Download, unzip, and double-click <b>build_mac.command</b>. It installs the app in Applications.</span>
                <span lang="tr">İndirin, zip'i açın ve <b>build_mac.command</b>'a çift tıklayın. Uygulamayı Uygulamalar klasörüne kurar.</span></p>
-            <a class="btn" id="dl-mac" href="#" data-asset="Deutsch-lernen-Mac.zip"><span lang="en">Download for Mac</span><span lang="tr">Mac için indir</span></a>
+            <a class="btn" id="dl-mac" href="https://github.com/clayzarada/deutsch-lernen/releases/latest/download/Deutsch-lernen-Mac.zip" data-asset="Deutsch-lernen-Mac.zip"><span lang="en">Download for Mac</span><span lang="tr">Mac için indir</span></a>
             <p class="meta" id="meta-mac"></p>
           </div>
         </div>
@@ -207,8 +181,6 @@
   // GitHub repo that holds the app's releases. Downloads always point at the newest release,
   // so publishing a new release updates this page without editing it.
   var REPO = "clayzarada/deutsch-lernen";
-  // SHA-256 of the access code (lowercased, trimmed). Current code: "deutsch".
-  var CODE_HASH = "303183b7184214314bef74a53082f39692250b710a9c08822f62212432c1850f";
 
   var root = document.documentElement;
   function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
@@ -247,35 +219,10 @@
       .catch(function(){ /* offline or no release yet: buttons still work once one exists */ });
   }
 
-  // ── access gate ───────────────────────────────────────────
-  function unlock(){
-    document.body.classList.add("unlocked");
-    // Download links are only filled in after unlocking, so link-following bots don't fetch them.
-    ["dl-win","dl-mac"].forEach(function(id){
-      var a = document.getElementById(id);
-      a.href = "https://github.com/" + REPO + "/releases/latest/download/" + a.dataset.asset;
-    });
-    loadRelease();
-  }
-  async function sha256(s){
-    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
-    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
-  }
-  document.getElementById("gate").addEventListener("submit", async function(e){
-    e.preventDefault();
-    var v = document.getElementById("code").value.trim().toLowerCase();
-    if (await sha256(v) === CODE_HASH){
-      try { sessionStorage.setItem("lab-ok", "1"); } catch(e){}
-      unlock(); window.scrollTo(0,0);
-    } else {
-      document.getElementById("err").textContent = root.dataset.lang === "tr" ? "Bu kod çalışmadı." : "That code didn't work.";
-    }
-  });
-
   // ── start ─────────────────────────────────────────────────
   var saved = store("lab-lang");
   setLang(saved === "tr" || saved === "en" ? saved : (/^tr\b/i.test(navigator.language || "") ? "tr" : "en"));
-  try { if (sessionStorage.getItem("lab-ok") === "1") unlock(); } catch(e){}
+  loadRelease();
 })();
 </script>
 </body>
